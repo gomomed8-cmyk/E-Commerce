@@ -13,7 +13,12 @@ namespace E_Commerce.Infrastructure.Repositories
     internal class GenericRepository<TEntity,TKey>(StoreDbContext dbContext) : IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
     {
         public void Add(TEntity entity)=>dbContext.Set<TEntity>().Add(entity);
-        
+
+        public async Task<int> CountAsync(ISpecification<TEntity, TKey> spec, CancellationToken ct = default)
+        {
+            var query = SpecificationEvaluator.CreateQuery(dbContext.Set<TEntity>(), spec);
+            return await (query.CountAsync(ct));
+        }
 
         public void Delete(TEntity entity)=>dbContext.Set<TEntity>().Remove(entity);
 
