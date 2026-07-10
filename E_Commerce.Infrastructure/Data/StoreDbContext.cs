@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Infrastructure.Data
 {
-    internal class StoreDbContext(DbContextOptions options) : DbContext(options)
+    internal class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContext(options)
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }

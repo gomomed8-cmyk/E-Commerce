@@ -3,6 +3,8 @@ using E_Commerce.API.Extensions;
 using E_Commerce.Application;
 using E_Commerce.Domain.Contracts;
 using E_Commerce.Infrastructure;
+using E_Commerce.Infrastructure.Identity.Entitys;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using System.Threading.Tasks;
@@ -25,6 +27,7 @@ namespace E_Commerce.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
 
             var app = builder.Build();
 
