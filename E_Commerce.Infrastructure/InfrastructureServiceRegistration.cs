@@ -6,10 +6,12 @@ using E_Commerce.Infrastructure.Identity.Data;
 using E_Commerce.Infrastructure.Identity.Entitys;
 using E_Commerce.Infrastructure.Repositories;
 using E_Commerce.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -21,31 +23,24 @@ namespace E_Commerce.Infrastructure
 {
     public static class InfrastructureServiceRegistration
     {
-        public static IServiceCollection AddInfrastructureServicers(this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureServicers(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<StoreDbContext>(options =>
             {
-
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-
             });
-
 
             services.AddDbContext<StoreIdentityDbContext>(options =>
             {
-
                 options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"));
-
             });
-
 
             services.AddKeyedScoped<IDataSeeder, CatalogDataSeeder>("Catalog");
             services.AddKeyedScoped<IDataSeeder, IdentityDataSeeder>("Identity");
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IConnectionMultiplexer>(Congig =>
             {
-
-              return ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!);
+                return ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!);
             });
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddSingleton<ICacheRepository, CacheRepository>();
@@ -55,6 +50,32 @@ namespace E_Commerce.Infrastructure
                 .AddEntityFrameworkStores<StoreIdentityDbContext>();
 
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<ITokenService, TokenService>();
+
+            var jwtSetting = configuration.GetSection("JWT").Get<JWTSettings>()
+                ?? throw new InvalidOperationException("Jwt Setting Is Missing");
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(opt =>
+            {
+                opt.SaveToken = true;
+                opt.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer=true,
+                    ValidIssuer=jwtSetting.Issuer,
+                    ValidateAudience=true,
+                    ValidAudience=jwtSetting.Audience,
+                    ValidateLifetime=true,
+                    RequireExpirationTime=true,
+                    ValidateIssuerSigningKey=true,
+                    IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.SecretKey)),
+                    ClockSkew=TimeSpan.Zero,
+                };
+
+
+            });
             return services;
         }
 

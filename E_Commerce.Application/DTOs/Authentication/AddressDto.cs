@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Infrastructure.Identity.Entitys
+namespace E_Commerce.Application.DTOs.Authentication
 {
-    public class Address
+    public class AddressDto
     {
-        public int Id { get; set; }
+        [Required]
         public string City { get; set; } = default!;
+        [Required]
         public string Street { get; set; } = default!;
+        [Required]
         public string Country { get; set; } = default!;
+        [Required]
         public string FirstName { get; set; } = default!;
-        public string LastName { get; set; }= default!;
-
-        public ApplicationUser User { get; set; }=default!;
-        public string UserId { get; set; }=default!;
+        [Required]
+        public string LastName { get; set; } = default!;
     }
 }

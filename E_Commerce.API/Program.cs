@@ -4,6 +4,7 @@ using E_Commerce.Application;
 using E_Commerce.Domain.Contracts;
 using E_Commerce.Infrastructure;
 using E_Commerce.Infrastructure.Identity.Entitys;
+using E_Commerce.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -24,6 +25,7 @@ namespace E_Commerce.API
             builder.Services.AddInfrastructureServicers(builder.Configuration);
             builder.Services.AddApplicationService();
             builder.Services.Configure<UrlSettings>(builder.Configuration.GetSection("UrlSettings"));
+            builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JWT"));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
