@@ -37,7 +37,7 @@ namespace E_Commerce.Application.Specifications
            IsPagingated = true;
         }
 
-        protected void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression)
+        protected void AddOrderDescBy(Expression<Func<TEntity, object>> orderByExpression)
         {
             OrderBy = orderByExpression;
         }

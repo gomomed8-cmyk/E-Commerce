@@ -4,6 +4,7 @@ using E_Commerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260723221837_OrderEntites")]
+    partial class OrderEntites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,7 +34,7 @@ namespace E_Commerce.Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(8,2)");
+                        .HasColumnType("decimai(8,2)");
 
                     b.Property<string>("DeliveryTime")
                         .IsRequired()
@@ -252,10 +255,10 @@ namespace E_Commerce.Infrastructure.Data.Migrations
                                 .HasMaxLength(200)
                                 .HasColumnType("nvarchar(200)");
 
-                            b1.Property<int>("ProductId")
+                            b1.Property<int>("ProductionId")
                                 .HasColumnType("int");
 
-                            b1.Property<string>("ProductName")
+                            b1.Property<string>("ProductionName")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)");

@@ -13,8 +13,17 @@ namespace E_Commerce.Application.Profiles
     {
         public BasketProfile()
         {
-            CreateMap<CustomerBasket,BasketDto>().ReverseMap();
-            CreateMap<BasketItem,BasketItemDto>().ReverseMap();
+            CreateMap<CustomerBasket, BasketDto>()
+                .ForMember(
+                    dest => dest.BasketItems,
+                    opt => opt.MapFrom(src => src.Items));
+
+            CreateMap<BasketDto, CustomerBasket>()
+                .ForMember(
+                    dest => dest.Items,
+                    opt => opt.MapFrom(src => src.BasketItems));
+
+            CreateMap<BasketItem, BasketItemDto>().ReverseMap();
         }
     }
 }

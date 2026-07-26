@@ -1,5 +1,6 @@
 ﻿using E_Commerce.Domain.Common;
 using E_Commerce.Domain.Contracts;
+using E_Commerce.Domain.Entites.Orders;
 using E_Commerce.Domain.Entites.Products;
 using E_Commerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,8 @@ namespace E_Commerce.Infrastructure.DataSeeding
                 await SeedIfEmptyAsync<ProductBrand,int>(seedRoot,"brands.json.json",ct); 
                await SeedIfEmptyAsync<ProductType,int>(seedRoot, "types.json.json", ct); 
                await SeedIfEmptyAsync<Product,int>(seedRoot, "products.json.json", ct); 
+               await SeedIfEmptyAsync<DeliveryMethod,int>(seedRoot, "delivery.json.json", ct); 
+
              int result= await _dbContext.SaveChangesAsync(ct);
                 if(result>0)
                     _logger.LogInformation($"{result}Data Seeded Successfully");

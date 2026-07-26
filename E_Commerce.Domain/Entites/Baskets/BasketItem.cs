@@ -9,7 +9,7 @@ namespace E_Commerce.Domain.Entites.Baskets
     public class BasketItem
     {
         public int Id { get; set; }
-        public string ProducName { get; set; }=default!;
+        public string ProductName { get; set; }=default!;
         public string PictureUrl { get; set; }=default!;
         public decimal Price { get; set; }
         public int Quantity { get; set; }
