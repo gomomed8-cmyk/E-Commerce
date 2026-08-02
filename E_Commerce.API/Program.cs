@@ -1,6 +1,7 @@
 
 using E_Commerce.API.Extensions;
 using E_Commerce.Application;
+using E_Commerce.Application.Common;
 using E_Commerce.Domain.Contracts;
 using E_Commerce.Infrastructure;
 using E_Commerce.Infrastructure.Identity.Entitys;
@@ -26,6 +27,7 @@ namespace E_Commerce.API
             builder.Services.AddApplicationService();
             builder.Services.Configure<UrlSettings>(builder.Configuration.GetSection("UrlSettings"));
             builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JWT"));
+            builder.Services.Configure<PaymentGatewaySettings>(builder.Configuration.GetSection("Stripe"));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -33,7 +35,7 @@ namespace E_Commerce.API
 
             var app = builder.Build();
 
-           await app.SeedAndMigrateDataAsync();
+          await app.SeedAndMigrateDataAsync();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -41,13 +43,21 @@ namespace E_Commerce.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            var filesPath = Path.Combine(app.Environment.ContentRootPath, "Files");
+
+            if (!Directory.Exists(filesPath))
+            {
+                Directory.CreateDirectory(filesPath);
+            }
+
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Files")),
-                RequestPath= "/Files"
+                FileProvider = new PhysicalFileProvider(filesPath),
+                RequestPath = "/Files"
             });
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

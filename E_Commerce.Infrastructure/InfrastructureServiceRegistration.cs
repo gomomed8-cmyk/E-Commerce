@@ -4,6 +4,7 @@ using E_Commerce.Infrastructure.Data;
 using E_Commerce.Infrastructure.DataSeeding;
 using E_Commerce.Infrastructure.Identity.Data;
 using E_Commerce.Infrastructure.Identity.Entitys;
+using E_Commerce.Infrastructure.Payments;
 using E_Commerce.Infrastructure.Repositories;
 using E_Commerce.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -51,6 +52,8 @@ namespace E_Commerce.Infrastructure
 
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IPaymentGateWay,StripePaymentGateway>();
+
 
             var jwtSetting = configuration.GetSection("JWT").Get<JWTSettings>()
                 ?? throw new InvalidOperationException("Jwt Setting Is Missing");
