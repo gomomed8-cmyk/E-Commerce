@@ -1,6 +1,6 @@
-# E-Commerce 
+# E-Commerce API
 
-A backend E-Commerce RESTful API built with ASP.NET Core 8, featuring authentication, authorization, caching, payment integration, and a layered architecture.
+A production-style E-Commerce RESTful API built with ASP.NET Core 8, featuring JWT authentication, role-based authorization, Redis caching, Stripe payments, and a layered architecture.
 
 ## Technologies
 
@@ -17,28 +17,57 @@ A backend E-Commerce RESTful API built with ASP.NET Core 8, featuring authentica
 
 ## Architecture
 
-The solution is organized into separate layers:
+The solution follows a layered architecture with clear separation of responsibilities:
 
-- E-Commerce.API – API endpoints, configuration, and HTTP pipeline
-- E-Commerce.Application – Business logic, services, DTOs, and contracts
-- E-Commerce.Domain – Domain entities and core business rules
-- E-Commerce.Infrastructure – Database access, repositories, Identity, Redis, and payment integrations
+- **E-Commerce.API** – API endpoints, configuration, and HTTP pipeline.
+- **E-Commerce.Application** – Business logic, DTOs, services, and contracts.
+- **E-Commerce.Domain** – Domain entities and core business rules.
+- **E-Commerce.Infrastructure** – Database access, repositories, Identity, Redis, and external service integrations.
 
 ## Key Features
+
+### Authentication & Authorization
 
 - User registration and authentication
 - JWT-based authentication
 - Role-based authorization
+- ASP.NET Core Identity
+
+### Catalog Management
+
 - Product and catalog management
-- Shopping basket
-- Order management
-- Redis caching
-- Stripe payment integration
-- Entity Framework Core with SQL Server
-- Database migrations and data seeding
-- AutoMapper for object mapping
-- Swagger API documentation
+- Product types and brands
 - Static file and image handling
+
+### Basket & Orders
+
+- Shopping basket management
+- Order creation and management
+- Order processing
+
+### Payments
+
+- Stripe payment integration
+
+### Performance & Caching
+
+- Redis caching
+- Reduced database access for frequently requested data
+
+### Data Access
+
+- Entity Framework Core
+- SQL Server
+- Repository Pattern
+- Unit of Work Pattern
+- Database migrations
+- Data seeding
+- AutoMapper for object mapping
+
+### API
+
+- RESTful API
+- Swagger / OpenAPI documentation
 
 ## Design Patterns & Principles
 
@@ -51,22 +80,52 @@ The solution is organized into separate layers:
 
 ## Getting Started
 
+### Prerequisites
+
+- .NET 8 SDK
+- SQL Server
+- Redis
+
+### Setup
+
 1. Clone the repository.
-2. Configure the SQL Server connection strings.
+
+2. Configure the SQL Server connection string.
+
 3. Configure JWT settings.
+
 4. Configure the Redis connection.
-5. Add your Stripe API keys using User Secrets or Environment Variables.
+
+5. Configure Stripe using User Secrets or Environment Variables.
+
 6. Apply the Entity Framework Core migrations.
+
 7. Run the application.
 
 ## Security
 
-Sensitive configuration such as database credentials, JWT secrets, Redis credentials, and Stripe secret keys should not be committed to source control.
+This repository does not contain sensitive credentials.
+
+The following values should be configured securely and should not be committed to source control:
+
+- Database connection strings
+- JWT secrets
+- Redis credentials
+- Stripe API keys
+
+For local development, use **User Secrets** or **Environment Variables**.
 
 ## API Documentation
 
-Swagger/OpenAPI is available when running the application in the Development environment.
+The API is documented using Swagger / OpenAPI.
 
-## Author
+When running the application in the Development environment, Swagger UI can be used to explore and test the available endpoints.
 
-Yousef Mohamed Said
+## Project Structure
+
+E-Commerce
+│
+├── E-Commerce.API
+├── E-Commerce.Application
+├── E-Commerce.Domain
+└── E-Commerce.Infrastructure
