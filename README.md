@@ -123,6 +123,7 @@ When running the application in the Development environment, Swagger UI can be u
 
 ## Project Structure
 
+```text
 E-Commerce
 │
 ├── E-Commerce.API
